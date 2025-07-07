@@ -1,0 +1,17 @@
+ipykernel
+numpy
+tensorflow==2.13.0
+tensorflow-macos==2.13.0
+matplotlib
+seaborn
+nltk
+regex
+spacy
+scikit-learn
+from_root
+fastapi==0.78.0
+uvicorn==0.18.3
+Jinja2==3.1.2
+boto3
+mypy-boto3-s3
+botocore
