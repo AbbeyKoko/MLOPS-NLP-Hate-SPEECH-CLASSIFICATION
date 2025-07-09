@@ -172,6 +172,7 @@ catboost_info/
 artifacts/*
 mlruns/*
 scores.json
+settings.json
 
 
 # terraform

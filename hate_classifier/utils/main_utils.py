@@ -2,7 +2,11 @@ import os
 import sys
 
 import yaml
+from pathlib import Path
 from string import Template
+from box import ConfigBox
+from box.exceptions import BoxValueError
+from ensure import ensure_annotations
 
 from hate_classifier.exception import CustomException
 from hate_classifier.logger import LoggerManager
@@ -10,7 +14,8 @@ from hate_classifier.logger import LoggerManager
 
 logger = LoggerManager("Utils - main_utils").get_logger()
 
-def read_yaml(filepath: str) -> dict:
+@ensure_annotations
+def read_yaml(filepath: Path) -> ConfigBox:
   """
   Method Name :   read_yaml
   Description :   This method reads a yaml from local into memory
@@ -22,18 +27,21 @@ def read_yaml(filepath: str) -> dict:
   Revisions   :   
   """
   try:
-    with open(filepath, "r") as yaml_file:
+    with open(filepath, "rb") as yaml_file:
       read_yaml = yaml.safe_load(yaml_file)
     
     logger.info(f"Read yaml file : {filepath}")
-    return read_yaml
+    return ConfigBox(read_yaml)
+  except BoxValueError:
+        raise ValueError("yaml file is empty")
   except Exception as e:
     logger.info(f"Could not read yaml file : {filepath}")
     raise CustomException(e, sys) from e
   
   
 global_substitutions = {} 
-def substitute_var_yaml(template_filepath: str, output_filepath: str, variable_substitution: dict):
+@ensure_annotations
+def substitute_var_yaml(template_filepath: Path, output_filepath: Path, variable_substitution: dict):
   """
   Method Name :   substitute_var_yaml
   Description :   This method substitutes a new variable {variable_substitution} into a YAML template {template_filepath} by accumulating all previous ones,
@@ -59,3 +67,16 @@ def substitute_var_yaml(template_filepath: str, output_filepath: str, variable_s
   except Exception as e:
     logger.info(f"Could not read yaml file {output_filepath} and inputed value for {variable_substitution.keys()[0]}")
     raise CustomException(e, sys) from e
+  
+@ensure_annotations
+def create_directories(path_to_directories: list, verbose=True):
+    """create list of directories
+
+    Args:
+        path_to_directories (list): list of path of directories
+        ignore_log (bool, optional): ignore if multiple dirs is to be created. Defaults to False.
+    """
+    for path in path_to_directories:
+        os.makedirs(path, exist_ok=True)
+        if verbose:
+            logger.info(f"created directory at: {path}")

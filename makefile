@@ -13,7 +13,7 @@ TERRAFORM_DIR := terraform
 ANSIBLE_DIR := ansible
 
 # Don't produce files
-.PHONY: project github create dvc terraform terraform-destroy automate full-install
+.PHONY: project github create dvc  dvc-run terraform terraform-destroy automate full-install 
 
 
 # describe what each target does.
@@ -84,8 +84,12 @@ full-install: full-project create install
 
 dvc:
 	conda run -n $(CONDA_ENV) pip install dvc
-	conda run -n $(CONDA_ENV) dvc init
+	conda run -n $(CONDA_ENV) dvc init --force
 	echo "DVC initialised."
+
+dvc-run:
+	# conda run -n $(CONDA_ENV) dvc repro
+
 
 automate:
 	echo "Installing terraform"

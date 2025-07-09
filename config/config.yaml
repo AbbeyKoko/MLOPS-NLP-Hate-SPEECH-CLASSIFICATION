@@ -1,0 +1,8 @@
+artifacts_root: Artifacts
+
+data_ingestion:
+  root_dir : DataIngestionArtifacts
+  bucket_file_path : data/raw/data.zip
+  zip_file_dir : "data.zip"
+  imbalance_data_dir : "imbalanced_data.csv"
+  raw_data_dir : "raw_data.csv"

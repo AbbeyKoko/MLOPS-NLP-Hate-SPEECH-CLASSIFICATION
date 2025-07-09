@@ -1,0 +1,20 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python 
+      hate_classifier/pipeline/stage_01_data_ingestion_train_pipeline.py
+    deps:
+    - path: config/config.yaml
+      hash: md5
+      md5: 9e25cd9f8bce06da5d13665433cac79f
+      size: 222
+    - path: hate_classifier/pipeline/stage_01_data_ingestion_train_pipeline.py
+      hash: md5
+      md5: feea77c8633f92c7fc7e27c10828f598
+      size: 1295
+    outs:
+    - path: Artifacts/DataIngestionArtifacts/
+      hash: md5
+      md5: c332d9be9af5ae55569e9ad9b0ef8ca7.dir
+      size: 7973428
+      nfiles: 3
