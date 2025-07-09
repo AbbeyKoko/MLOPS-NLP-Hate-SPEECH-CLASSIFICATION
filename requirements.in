@@ -1,7 +1,8 @@
 ipykernel
 numpy
-tensorflow==2.13.0
+# tensorflow==2.13.0
 tensorflow-macos==2.13.0
+tensorflow-metal==1.2.0
 matplotlib
 seaborn
 nltk

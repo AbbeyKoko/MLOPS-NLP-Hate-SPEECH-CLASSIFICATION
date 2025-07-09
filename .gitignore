@@ -164,6 +164,7 @@ cython_debug/
 #.idea/
 
 artifact/*
+notebooks/*
 
 catboost_info/
 
