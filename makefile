@@ -9,9 +9,11 @@ GITHUB_REPO ?= "MLOPS-NLP-Hate-SPEECH-CLASSIFICATION"
 CONDA_ENV ?= "Py-NLP-Hate"
 PYTHON ?= "3.10"
 REQUIREMENTS ?= "requirements.in"
+TERRAFORM_DIR := terraform
+ANSIBLE_DIR := ansible
 
 # Don't produce files
-.PHONY: project
+.PHONY: project github create dvc terraform terraform-destroy automate full-install
 
 
 # describe what each target does.
@@ -25,6 +27,7 @@ help:
 	@echo "make dvc				- Install and initialise DVC"
 	@echo "make automate				- Install Terraform and Ansible globally"
 	@echo "make terraform				- Create resources using terraform"
+	@echo "make terraform-destroy				- Destroy resources using terraform"
 	@echo "make full-install			- Create  project, repo, conda environment and install packages"
 
 
@@ -91,9 +94,18 @@ automate:
 	brew install ansible || true
 
 terraform:
-	cd terraform
-	terraform init
-	terraform plan -outs=secure.tfplan
-	terraform apply -auto-approve secure.tfplan
-	cd ..
+	cd $(TERRAFORM_DIR) && \
+	terraform init && \
+	terraform plan -out=secure.tfplan && \
+	terraform apply -auto-approve secure.tfplan && \
+	terraform output -json > tf_outputs.json
+
+terraform-destroy:
+	@read -p "Really destroy all infrastructure? [y/N] " confirm; \
+	if [ "$$confirm" = "y" ] || [ "$$confirm" = "Y" ]; then \
+		cd $(TERRAFORM_DIR) && \
+		terraform destroy -auto-approve; \
+	else \
+		echo "Destroy cancelled."; \
+	fi
 

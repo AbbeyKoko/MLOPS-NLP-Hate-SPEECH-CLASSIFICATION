@@ -181,6 +181,7 @@ scores.json
 .terraform/
 jenkins-runtime-key.pem
 policy.json
+tf_outputs.json
 
 #ansible
 # group_vars/
